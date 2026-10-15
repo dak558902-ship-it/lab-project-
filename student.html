@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Portal | SmartLab Monitor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="assets/css/design-system.css" />
+    <link rel="stylesheet" href="assets/css/student.css" />
+  </head>
+  <body>
+    <div class="student-shell">
+      <header class="stu-header">
+        <div class="brand-wrap">
+          <div class="brand-mark">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M4 18V7.5A1.5 1.5 0 0 1 5.5 6H18.5A1.5 1.5 0 0 1 20 7.5V18M8 9.5H16M8 13H13M9 18V20M15 18V20" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div>
+            <p class="eyebrow-mini">SmartLab Monitor</p>
+            <h1>Student Portal</h1>
+          </div>
+        </div>
+        <a href="index.html" class="btn btn-ghost">Back to Home</a>
+      </header>
+
+      <main class="stu-content">
+        <section id="welcome-panel" class="panel active">
+          <div class="welcome-header">
+            <div>
+              <p class="eyebrow-mini">Welcome</p>
+              <h2>Hello, student</h2>
+            </div>
+            <span id="computer-status-badge" class="status-badge neutral">Checking</span>
+          </div>
+
+          <div class="welcome-grid">
+            <div class="info-card">
+              <p class="label">Current Computer Status</p>
+              <div class="status-summary">
+                <span class="status-dot info"></span>
+                <strong id="computer-status-label">Detecting available machine</strong>
+              </div>
+              <div id="computer-status-meta" class="meta-text">Preparing your workstation assignment…</div>
+            </div>
+            <div class="info-card accent">
+              <p class="label">Campus Lab</p>
+              <p class="lab-name">Innovation Lab 01</p>
+              <p class="meta-text">Scheduled usage logging system</p>
+            </div>
+          </div>
+
+          <div class="cta-row">
+            <button id="start-recording-btn" class="btn btn-primary">Start Recording</button>
+          </div>
+        </section>
+
+        <section id="form-panel" class="panel">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow-mini">Usage Form</p>
+              <h2>Schedule Lab Computer Usage</h2>
+            </div>
+          </div>
+
+          <form id="usage-form" novalidate>
+            <div class="form-grid">
+              <div class="field-group">
+                <label for="student-name">Student Name</label>
+                <input id="student-name" name="studentName" type="text" placeholder="Enter full name" />
+              </div>
+
+              <div class="field-group">
+                <label for="register-number">Register Number</label>
+                <input id="register-number" name="registerNumber" type="text" placeholder="Enter register number" />
+              </div>
+
+              <div class="field-group">
+                <label for="department">Department</label>
+                <select id="department" name="department">
+                  <option value="">Select department</option>
+                  <option value="AI & DS">AI & DS</option>
+                  <option value="CSE">CSE</option>
+                  <option value="ECE">ECE</option>
+                  <option value="EEE">EEE</option>
+                  <option value="MECH">MECH</option>
+                  <option value="CIVIL">CIVIL</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+
+              <div class="field-group">
+                <label for="year">Year</label>
+                <select id="year" name="year">
+                  <option value="">Select year</option>
+                  <option value="1st Year">1st Year</option>
+                  <option value="2nd Year">2nd Year</option>
+                  <option value="3rd Year">3rd Year</option>
+                  <option value="4th Year">4th Year</option>
+                </select>
+              </div>
+
+              <div class="field-group">
+                <label for="computer-id">Computer ID</label>
+                <select id="computer-id" name="computerId">
+                  <option value="">Select a computer</option>
+                </select>
+              </div>
+
+              <div class="field-group">
+                <label for="date-booked">Booked Date</label>
+                <input id="date-booked" name="bookedDate" type="date" />
+              </div>
+
+              <div class="field-group">
+                <label for="start-time">Start Time</label>
+                <input id="start-time" name="startTime" type="time" />
+              </div>
+
+              <div class="field-group">
+                <label for="end-time">End Time</label>
+                <input id="end-time" name="endTime" type="time" />
+              </div>
+            </div>
+
+            <div id="form-error" class="form-error hidden"></div>
+
+            <div class="submit-row">
+              <button type="button" id="cancel-form-btn" class="btn btn-ghost">Cancel</button>
+              <button type="submit" class="btn btn-primary">Submit Usage Record</button>
+            </div>
+          </form>
+        </section>
+
+        <section id="success-panel" class="panel">
+          <div class="success-shell">
+            <div class="success-icon">✓</div>
+            <div class="success-copy">
+              <p class="eyebrow-mini">Success</p>
+              <h2>Usage record submitted</h2>
+              <p>Your scheduled lab booking was successfully recorded.</p>
+            </div>
+          </div>
+
+          <div class="summary-card" id="summary-card"></div>
+
+          <div class="submit-row">
+            <button id="new-entry-btn" class="btn btn-primary">New Entry</button>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="assets/js/utils.js"></script>
+    <script src="assets/js/data.js"></script>
+    <script src="assets/js/student.js"></script>
+  </body>
+</html>
