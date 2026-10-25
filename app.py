@@ -10,6 +10,8 @@ from sqlalchemy import create_engine, text
 from werkzeug.security import check_password_hash, generate_password_hash
 
 app = Flask(__name__, static_folder='assets', template_folder='.')
+app.config['ADMIN_USERNAME'] = 'admin'
+app.config['ADMIN_PASSWORD'] = os.getenv('SMARTLAB_ADMIN_PASSWORD', 'admin123')
 DEFAULT_MYSQL_URI = 'mysql+pymysql://smartlab:SmartLab123@localhost:3306/smartlab'
 FALLBACK_SQLITE_URI = 'sqlite:///smartlab.db'
 
@@ -127,28 +129,20 @@ class UsageRecord(db.Model):
 
 
 def generate_computers():
-    status_pool = ['AVAILABLE', 'AVAILABLE', 'AVAILABLE', 'AVAILABLE', 'AVAILABLE', 'IN_USE', 'IN_USE', 'IN_USE', 'OFFLINE']
-    students = ['Aisha', 'Arun', 'Nandha', 'Farah', 'Karthik']
-    departments = ['CSE', 'AI & DS', 'ECE', 'EEE', 'MECH']
     computers = []
     for index in range(1, 61):
         pc_number = index
-        status = status_pool[(index - 1) % len(status_pool)]
         label = f'LAB-PC-{str(pc_number).zfill(2)}'
-        student_name = students[(index - 1) % len(students)] if status == 'IN_USE' else ''
-        department = departments[(index - 1) % len(departments)] if status == 'IN_USE' else ''
-        last_seen = (datetime.utcnow().replace(microsecond=0)).isoformat()
-        current_booking = {'start': '09:30', 'end': '11:00'} if status == 'IN_USE' else None
         computers.append(
             Computer(
                 id=label,
                 label=label,
-                status=status,
-                student_name=student_name,
-                department=department,
-                last_seen=last_seen,
-                current_booking_start=current_booking['start'] if current_booking else '',
-                current_booking_end=current_booking['end'] if current_booking else '',
+                status='AVAILABLE',
+                student_name='',
+                department='',
+                last_seen=(datetime.utcnow().replace(microsecond=0)).isoformat(),
+                current_booking_start='',
+                current_booking_end='',
             )
         )
     return computers
@@ -324,6 +318,17 @@ def get_students():
     return jsonify([student.to_dict() for student in Student.query.order_by(Student.id).all()])
 
 
+@app.route('/api/students/<int:student_id>', methods=['DELETE'])
+def delete_student(student_id):
+    student = Student.query.get(student_id)
+    if not student:
+        return jsonify({'ok': False, 'message': 'Student not found.'}), 404
+
+    db.session.delete(student)
+    db.session.commit()
+    return jsonify({'ok': True, 'message': 'Student deleted successfully.'})
+
+
 @app.route('/api/records')
 def get_usage_records():
     return jsonify([record.to_dict() for record in UsageRecord.query.order_by(UsageRecord.created_at.desc()).all()])
@@ -337,6 +342,30 @@ def admin_login():
     if username == 'admin' and password == 'admin123':
         return jsonify({'ok': True, 'message': 'Admin login successful'})
     return jsonify({'ok': False, 'message': 'Invalid username or password'}), 401
+
+
+@app.route('/api/admin/password', methods=['POST'])
+def change_admin_password():
+    data = request.get_json(silent=True) or request.form.to_dict()
+    current_password = str(data.get('currentPassword', '')).strip()
+    new_password = str(data.get('newPassword', '')).strip()
+    confirm_password = str(data.get('confirmPassword', '')).strip()
+
+    if not current_password or not new_password or not confirm_password:
+        return jsonify({'ok': False, 'message': 'Please fill in all password fields.'}), 400
+
+    if new_password != confirm_password:
+        return jsonify({'ok': False, 'message': 'New password and confirm password do not match.'}), 400
+
+    if len(new_password) < 6:
+        return jsonify({'ok': False, 'message': 'New password must be at least 6 characters long.'}), 400
+
+    stored_password = str(app.config.get('ADMIN_PASSWORD', 'admin123')).strip()
+    if current_password != stored_password:
+        return jsonify({'ok': False, 'message': 'Current admin password is incorrect.'}), 401
+
+    app.config['ADMIN_PASSWORD'] = new_password
+    return jsonify({'ok': True, 'message': 'Admin password updated successfully.'})
 
 
 @app.route('/api/records', methods=['POST'])

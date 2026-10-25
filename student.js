@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', async function () {
   const computerIdInput = document.getElementById('computer-id');
   const summaryCard = document.getElementById('summary-card');
   const formError = document.getElementById('form-error');
+  const telemetrySummary = document.getElementById('telemetry-summary');
 
   function setActivePanel(panelName) {
     welcomePanel.classList.toggle('active', panelName === 'welcome');
@@ -25,6 +26,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
   async function populateComputerStatus() {
     const state = await loadCurrentState();
+    renderLiveTelemetry(state);
     const availableComputer = state.computers.find((pc) => pc.status === 'AVAILABLE');
     if (!availableComputer) {
       computerStatusBadge.textContent = 'Offline';
@@ -65,6 +67,41 @@ document.addEventListener('DOMContentLoaded', async function () {
       <div class="row"><span>Time</span><strong>${data.startTime} - ${data.endTime}</strong></div>
       <div class="row"><span>Duration</span><strong>${duration}</strong></div>
     `;
+  }
+
+  function renderLiveTelemetry(state) {
+    const available = state.computers.filter((pc) => pc.status === 'AVAILABLE').length;
+    const inUse = state.computers.filter((pc) => pc.status === 'IN_USE').length;
+    const total = state.computers.length;
+    const latest = state.records[0];
+
+    if (!telemetrySummary) return;
+
+    telemetrySummary.innerHTML = `
+      <div class="telemetry-card">
+        <p class="label">Available</p>
+        <strong>${available}</strong>
+        <span>${total - available} occupied</span>
+      </div>
+      <div class="telemetry-card">
+        <p class="label">In Use</p>
+        <strong>${inUse}</strong>
+        <span>Live sessions</span>
+      </div>
+      <div class="telemetry-card">
+        <p class="label">Latest Booking</p>
+        <strong>${latest ? latest.computerId : '—'}</strong>
+        <span>${latest ? `${latest.studentName} • ${latest.startTime}` : 'Awaiting activity'}</span>
+      </div>
+    `;
+  }
+
+  function bindLiveRefresh() {
+    window.addEventListener('smartlab-state-updated', async () => {
+      const state = await loadCurrentState();
+      renderLiveTelemetry(state);
+      await populateComputerStatus();
+    });
   }
 
   startRecordingBtn.addEventListener('click', async () => {
@@ -135,8 +172,10 @@ document.addEventListener('DOMContentLoaded', async function () {
     SmartLabUtils.showToast('Usage record submitted successfully.', 'success');
   });
 
+  bindLiveRefresh();
   await populateComputerStatus();
   const initState = await loadCurrentState();
+  renderLiveTelemetry(initState);
   const initComputer = initState.computers.find((pc) => pc.status === 'AVAILABLE');
   computerIdInput.value = initComputer ? initComputer.id : 'LAB-PC-01';
   setActivePanel('welcome');

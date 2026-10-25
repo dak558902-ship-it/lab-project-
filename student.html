@@ -6,13 +6,13 @@
     <title>Student Portal | SmartLab Monitor</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&family=Share+Tech+Mono&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="assets/css/design-system.css" />
     <link rel="stylesheet" href="assets/css/student.css" />
   </head>
   <body>
     <div class="student-shell">
-      <header class="stu-header">
+      <header class="stu-header animate-in">
         <div class="brand-wrap">
           <div class="brand-mark">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -28,8 +28,9 @@
       </header>
 
       <main class="stu-content">
+        <!-- ── Welcome Panel ──────────────────────────── -->
         <section id="welcome-panel" class="panel active">
-          <div class="welcome-header">
+          <div class="welcome-header animate-in delay-1">
             <div>
               <p class="eyebrow-mini">Welcome</p>
               <h2>Hello, student</h2>
@@ -37,7 +38,7 @@
             <span id="computer-status-badge" class="status-badge neutral">Checking</span>
           </div>
 
-          <div class="welcome-grid">
+          <div class="welcome-grid animate-in delay-2">
             <div class="info-card">
               <p class="label">Current Computer Status</p>
               <div class="status-summary">
@@ -53,90 +54,162 @@
             </div>
           </div>
 
-          <div class="cta-row">
-            <button id="start-recording-btn" class="btn btn-primary">Start Recording</button>
+          <div class="cta-row animate-in delay-3">
+            <button id="start-recording-btn" class="btn btn-gradient">Start Recording</button>
           </div>
+
+          <div class="welcome-panel-telemetry" id="telemetry-summary"></div>
         </section>
 
+        <!-- ── Form Panel with Step Wizard ─────────────── -->
         <section id="form-panel" class="panel">
-          <div class="panel-header">
-            <div>
-              <p class="eyebrow-mini">Usage Form</p>
-              <h2>Schedule Lab Computer Usage</h2>
+          <!-- Step Indicator -->
+          <div class="step-indicator" id="step-indicator">
+            <div class="step-node active" data-step="1">
+              <div class="step-dot">01</div>
+              <span class="step-label">Identity</span>
+            </div>
+            <div class="step-connector" data-connector="1"></div>
+            <div class="step-node" data-step="2">
+              <div class="step-dot">02</div>
+              <span class="step-label">Computer</span>
+            </div>
+            <div class="step-connector" data-connector="2"></div>
+            <div class="step-node" data-step="3">
+              <div class="step-dot">03</div>
+              <span class="step-label">Schedule</span>
+            </div>
+            <div class="step-connector" data-connector="3"></div>
+            <div class="step-node" data-step="4">
+              <div class="step-dot">04</div>
+              <span class="step-label">Review</span>
             </div>
           </div>
 
           <form id="usage-form" novalidate>
-            <div class="form-grid">
-              <div class="field-group">
-                <label for="student-name">Student Name</label>
-                <input id="student-name" name="studentName" type="text" placeholder="Enter full name" />
+            <!-- Step 1: Identity -->
+            <div class="wizard-step active animate-in" data-wizard-step="1">
+              <div class="panel-header">
+                <div>
+                  <p class="eyebrow-mini">Step 1 of 4</p>
+                  <h2>Your Identity</h2>
+                </div>
               </div>
-
-              <div class="field-group">
-                <label for="register-number">Register Number</label>
-                <input id="register-number" name="registerNumber" type="text" placeholder="Enter register number" />
+              <div class="form-grid">
+                <div class="field-group">
+                  <label for="student-name">Student Name</label>
+                  <input id="student-name" name="studentName" type="text" placeholder="Enter full name" />
+                </div>
+                <div class="field-group">
+                  <label for="register-number">Register Number</label>
+                  <input id="register-number" name="registerNumber" type="text" placeholder="Enter register number" />
+                </div>
+                <div class="field-group">
+                  <label for="department">Department</label>
+                  <select id="department" name="department">
+                    <option value="">Select department</option>
+                    <option value="IT">IT</option>
+                    <option value="AI & ML">AI &amp; ML</option>
+                    <option value="AI &amp; DS">AI &amp; DS</option>
+                    <option value="CSE">CSE</option>
+                    <option value="ECE">ECE</option>
+                    <option value="EEE">EEE</option>
+                    <option value="MECH">MECH</option>
+                    <option value="CIVIL">CIVIL</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+                <div class="field-group">
+                  <label for="year">Year</label>
+                  <select id="year" name="year">
+                    <option value="">Select year</option>
+                    <option value="1st Year">1st Year</option>
+                    <option value="2nd Year">2nd Year</option>
+                    <option value="3rd Year">3rd Year</option>
+                    <option value="4th Year">4th Year</option>
+                  </select>
+                </div>
               </div>
-
-              <div class="field-group">
-                <label for="department">Department</label>
-                <select id="department" name="department">
-                  <option value="">Select department</option>
-                  <option value="AI & DS">AI & DS</option>
-                  <option value="CSE">CSE</option>
-                  <option value="ECE">ECE</option>
-                  <option value="EEE">EEE</option>
-                  <option value="MECH">MECH</option>
-                  <option value="CIVIL">CIVIL</option>
-                  <option value="Other">Other</option>
-                </select>
-              </div>
-
-              <div class="field-group">
-                <label for="year">Year</label>
-                <select id="year" name="year">
-                  <option value="">Select year</option>
-                  <option value="1st Year">1st Year</option>
-                  <option value="2nd Year">2nd Year</option>
-                  <option value="3rd Year">3rd Year</option>
-                  <option value="4th Year">4th Year</option>
-                </select>
-              </div>
-
-              <div class="field-group">
-                <label for="computer-id">Computer ID</label>
-                <select id="computer-id" name="computerId">
-                  <option value="">Select a computer</option>
-                </select>
-              </div>
-
-              <div class="field-group">
-                <label for="date-booked">Booked Date</label>
-                <input id="date-booked" name="bookedDate" type="date" />
-              </div>
-
-              <div class="field-group">
-                <label for="start-time">Start Time</label>
-                <input id="start-time" name="startTime" type="time" />
-              </div>
-
-              <div class="field-group">
-                <label for="end-time">End Time</label>
-                <input id="end-time" name="endTime" type="time" />
+              <div class="submit-row">
+                <button type="button" id="cancel-form-btn" class="btn btn-ghost">Cancel</button>
+                <button type="button" class="btn btn-primary wizard-next" data-next="2">Next Step →</button>
               </div>
             </div>
 
-            <div id="form-error" class="form-error hidden"></div>
+            <!-- Step 2: Computer Selection -->
+            <div class="wizard-step" data-wizard-step="2">
+              <div class="panel-header">
+                <div>
+                  <p class="eyebrow-mini">Step 2 of 4</p>
+                  <h2>Select Computer</h2>
+                </div>
+              </div>
+              <div class="form-grid">
+                <div class="field-group" style="grid-column: 1 / -1;">
+                  <label for="computer-id">Computer ID</label>
+                  <select id="computer-id" name="computerId">
+                    <option value="">Select a computer</option>
+                  </select>
+                </div>
+              </div>
+              <div id="computer-visual-grid" class="computer-visual-grid"></div>
+              <div class="submit-row">
+                <button type="button" class="btn btn-ghost wizard-prev" data-prev="1">← Back</button>
+                <button type="button" class="btn btn-primary wizard-next" data-next="3">Next Step →</button>
+              </div>
+            </div>
 
-            <div class="submit-row">
-              <button type="button" id="cancel-form-btn" class="btn btn-ghost">Cancel</button>
-              <button type="submit" class="btn btn-primary">Submit Usage Record</button>
+            <!-- Step 3: Schedule -->
+            <div class="wizard-step" data-wizard-step="3">
+              <div class="panel-header">
+                <div>
+                  <p class="eyebrow-mini">Step 3 of 4</p>
+                  <h2>Set Schedule</h2>
+                </div>
+              </div>
+              <div class="form-grid">
+                <div class="field-group">
+                  <label for="date-booked">Booked Date</label>
+                  <input id="date-booked" name="bookedDate" type="date" />
+                </div>
+                <div class="field-group"></div>
+                <div class="field-group">
+                  <label for="start-time">Start Time</label>
+                  <input id="start-time" name="startTime" type="time" />
+                </div>
+                <div class="field-group">
+                  <label for="end-time">End Time</label>
+                  <input id="end-time" name="endTime" type="time" />
+                </div>
+              </div>
+              <div id="time-visual" class="time-visual-bar"></div>
+              <div class="submit-row">
+                <button type="button" class="btn btn-ghost wizard-prev" data-prev="2">← Back</button>
+                <button type="button" class="btn btn-primary wizard-next" data-next="4">Review →</button>
+              </div>
+            </div>
+
+            <!-- Step 4: Review -->
+            <div class="wizard-step" data-wizard-step="4">
+              <div class="panel-header">
+                <div>
+                  <p class="eyebrow-mini">Step 4 of 4</p>
+                  <h2>Review &amp; Submit</h2>
+                </div>
+              </div>
+              <div id="review-summary" class="summary-card"></div>
+              <div id="form-error" class="form-error hidden"></div>
+              <div class="submit-row">
+                <button type="button" class="btn btn-ghost wizard-prev" data-prev="1">← Edit Info</button>
+                <button type="submit" class="btn btn-gradient">Submit Usage Record</button>
+              </div>
             </div>
           </form>
         </section>
 
+        <!-- ── Success Panel ──────────────────────────── -->
         <section id="success-panel" class="panel">
-          <div class="success-shell">
+          <div class="success-shell animate-in">
             <div class="success-icon">✓</div>
             <div class="success-copy">
               <p class="eyebrow-mini">Success</p>
@@ -145,10 +218,10 @@
             </div>
           </div>
 
-          <div class="summary-card" id="summary-card"></div>
+          <div class="summary-card animate-in delay-1" id="summary-card"></div>
 
-          <div class="submit-row">
-            <button id="new-entry-btn" class="btn btn-primary">New Entry</button>
+          <div class="submit-row animate-in delay-2">
+            <button id="new-entry-btn" class="btn btn-gradient">New Entry</button>
           </div>
         </section>
       </main>

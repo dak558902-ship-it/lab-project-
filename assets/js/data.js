@@ -1,20 +1,23 @@
 const SmartLabData = (() => {
   const STORAGE_KEY = 'smartlab-monitor-state-v1';
 
+  function notifyStateUpdated() {
+    window.dispatchEvent(new CustomEvent('smartlab-state-updated'));
+  }
+
   const defaultComputers = Array.from({ length: 60 }, (_, index) => {
     const pcNumber = index + 1;
-    const statusPool = ['AVAILABLE', 'AVAILABLE', 'AVAILABLE', 'AVAILABLE', 'AVAILABLE', 'IN_USE', 'IN_USE', 'IN_USE', 'OFFLINE'];
-    const status = statusPool[index % statusPool.length];
+    const status = 'AVAILABLE';
     const lastSeen = new Date(Date.now() - (index % 3) * 86400000).toISOString().slice(0, 16);
 
     return {
       id: `LAB-PC-${String(pcNumber).padStart(2, '0')}`,
       label: `LAB-PC-${String(pcNumber).padStart(2, '0')}`,
       status,
-      studentName: status === 'IN_USE' ? ['Aisha', 'Arun', 'Nandha', 'Farah', 'Karthik'][index % 5] : '',
+      studentName: '',
       lastSeen,
-      department: status === 'IN_USE' ? ['CSE', 'AI & DS', 'ECE', 'EEE', 'MECH'][index % 5] : '',
-      currentBooking: status === 'IN_USE' ? { start: '09:30', end: '11:00' } : null
+      department: '',
+      currentBooking: null
     };
   });
 
@@ -71,13 +74,45 @@ const SmartLabData = (() => {
     }
   ];
 
+  const defaultSchedules = [
+    { id: 'SCH-101', className: 'Data Structures Lab', department: 'IT', day: 'Monday', time: '09:00', durationHours: 2, room: 'Lab A1' },
+    { id: 'SCH-102', className: 'Network Security Lab', department: 'IT', day: 'Wednesday', time: '11:00', durationHours: 2, room: 'Lab B2' },
+    { id: 'SCH-103', className: 'Web Development Studio', department: 'CSE', day: 'Friday', time: '14:00', durationHours: 3, room: 'Lab C3' }
+  ];
+
+  const defaultTimetables = [
+    { id: 'TT-101', title: 'IT Semester Timetable', department: 'IT', day: 'Monday', time: '09:00', room: 'Room A1', fileName: 'it-schedule.pdf' },
+    { id: 'TT-102', title: 'AI & ML Schedule', department: 'AI & ML', day: 'Wednesday', time: '11:00', room: 'Room B2', fileName: 'ai-ml.pdf' }
+  ];
+
   function generateInitialState() {
     return {
-      computers: defaultComputers,
-      students: defaultStudents,
-      records: defaultRecords,
+      computers: JSON.parse(JSON.stringify(defaultComputers)),
+      students: JSON.parse(JSON.stringify(defaultStudents)),
+      records: JSON.parse(JSON.stringify(defaultRecords)),
+      schedules: JSON.parse(JSON.stringify(defaultSchedules)),
+      timetables: JSON.parse(JSON.stringify(defaultTimetables)),
       settings: { autoApprove: true, conflictDetection: true }
     };
+  }
+
+  /**
+   * Ensures that computer array has all required fields but does NOT
+   * reset status back to AVAILABLE — that was the critical bug.
+   */
+  function sanitizeComputers(computers) {
+    if (!computers || !Array.isArray(computers) || computers.length === 0) {
+      return JSON.parse(JSON.stringify(defaultComputers));
+    }
+    return computers.map((computer) => ({
+      id: computer.id,
+      label: computer.label || computer.id,
+      status: computer.status || 'AVAILABLE',
+      studentName: computer.studentName || '',
+      department: computer.department || '',
+      lastSeen: computer.lastSeen || '',
+      currentBooking: computer.currentBooking || null
+    }));
   }
 
   function readLocalState() {
@@ -90,16 +125,19 @@ const SmartLabData = (() => {
 
     try {
       const parsed = JSON.parse(raw);
-      return {
-        computers: parsed.computers || defaultComputers,
-        students: parsed.students || defaultStudents,
-        records: parsed.records || defaultRecords,
+      const state = {
+        computers: sanitizeComputers(parsed.computers),
+        students: parsed.students || JSON.parse(JSON.stringify(defaultStudents)),
+        records: parsed.records || JSON.parse(JSON.stringify(defaultRecords)),
+        schedules: parsed.schedules || JSON.parse(JSON.stringify(defaultSchedules)),
+        timetables: parsed.timetables || JSON.parse(JSON.stringify(defaultTimetables)),
         settings: {
           autoApprove: true,
           conflictDetection: true,
           ...(parsed.settings || {})
         }
       };
+      return state;
     } catch (error) {
       const initial = generateInitialState();
       localStorage.setItem(STORAGE_KEY, JSON.stringify(initial));
@@ -108,7 +146,29 @@ const SmartLabData = (() => {
   }
 
   function saveState(state) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    const stateToSave = {
+      ...state,
+      computers: sanitizeComputers(state.computers)
+    };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(stateToSave));
+    notifyStateUpdated();
+  }
+
+  function ensureLiveRefresh(intervalMs = 8000) {
+    if (window.__smartlabLiveRefreshInterval) {
+      return;
+    }
+
+    window.__smartlabLiveRefreshInterval = setInterval(async () => {
+      try {
+        const payload = await fetchJson('/api/state');
+        if (payload && payload.computers) {
+          saveState(payload);
+        }
+      } catch (error) {
+        // Ignore refresh failures and keep the app responsive.
+      }
+    }, intervalMs);
   }
 
   async function fetchJson(url, options = {}) {
@@ -166,7 +226,7 @@ const SmartLabData = (() => {
 
   async function getAvailableComputer() {
     const state = await loadState();
-    const available = state.computers.find((pc) => pc.status === 'AVAILABLE');
+    const available = (state.computers || []).find((pc) => pc.status === 'AVAILABLE');
     return available ? available.id : null;
   }
 
@@ -174,6 +234,7 @@ const SmartLabData = (() => {
     const state = await loadState();
     state.students.push({ id: Date.now(), ...student });
     saveState(state);
+    notifyStateUpdated();
   }
 
   async function addComputer(payload) {
@@ -212,6 +273,18 @@ const SmartLabData = (() => {
       });
 
       if (response && response.record) {
+        // After API success, update local state to reflect the new booking
+        const state = readLocalState();
+        state.records.unshift(response.record);
+        const computer = state.computers.find((pc) => pc.id === payload.computerId);
+        if (computer) {
+          computer.status = 'IN_USE';
+          computer.studentName = payload.studentName;
+          computer.department = payload.department;
+          computer.lastSeen = new Date().toISOString().slice(0, 16);
+          computer.currentBooking = { start: payload.startTime, end: payload.endTime };
+        }
+        saveState(state);
         return response.record;
       }
     } catch (error) {
@@ -223,11 +296,11 @@ const SmartLabData = (() => {
       id: `R-${Date.now()}`,
       ...payload,
       durationHours: SmartLabUtils.timeDifferenceInHours(payload.startTime, payload.endTime),
-      status: 'IN_USE'
+      status: 'IN_USE',
+      createdAt: new Date().toISOString()
     };
 
     state.records.unshift(record);
-    saveState(state);
 
     const computer = state.computers.find((pc) => pc.id === payload.computerId);
     if (computer) {
@@ -236,8 +309,8 @@ const SmartLabData = (() => {
       computer.department = payload.department;
       computer.lastSeen = new Date().toISOString().slice(0, 16);
       computer.currentBooking = { start: payload.startTime, end: payload.endTime };
-      saveState(state);
     }
+    saveState(state);
 
     return record;
   }
@@ -300,11 +373,91 @@ const SmartLabData = (() => {
     };
   }
 
+  async function addSchedule(schedule) {
+    const state = await loadState();
+    const normalized = {
+      ...schedule,
+      id: schedule.id || `SCH-${Date.now()}`,
+      department: schedule.department || 'IT',
+      day: schedule.day || 'Monday',
+      time: schedule.time || '09:00',
+      durationHours: Number(schedule.durationHours || 1),
+      room: schedule.room || 'Lab A1'
+    };
+    state.schedules = [normalized, ...(state.schedules || [])];
+    saveState(state);
+    return normalized;
+  }
+
+  async function updateSchedule(scheduleId, updates) {
+    const state = await loadState();
+    state.schedules = (state.schedules || []).map((item) => item.id === scheduleId ? { ...item, ...updates } : item);
+    saveState(state);
+    return state.schedules.find((item) => item.id === scheduleId);
+  }
+
+  async function deleteSchedule(scheduleId) {
+    const state = await loadState();
+    state.schedules = (state.schedules || []).filter((item) => item.id !== scheduleId);
+    saveState(state);
+    return true;
+  }
+
+  async function upsertStudent(student) {
+    const state = await loadState();
+    if (student.id) {
+      state.students = (state.students || []).map((item) => item.id === student.id ? { ...item, ...student } : item);
+    } else {
+      state.students = [{ id: Date.now(), ...student }, ...(state.students || [])];
+    }
+    saveState(state);
+    return state.students.find((item) => item.id === (student.id || state.students[0]?.id));
+  }
+
+  async function changeAdminPassword(currentPassword, newPassword) {
+    const trimmed = String(newPassword || '').trim();
+    if (!trimmed || trimmed.length < 6) {
+      return { ok: false, message: 'New password must be at least 6 characters.' };
+    }
+    const expected = sessionStorage.getItem('smartlab-admin-password') || 'admin123';
+    if (String(currentPassword || '').trim() !== expected) {
+      return { ok: false, message: 'Current admin password is incorrect.' };
+    }
+    sessionStorage.setItem('smartlab-admin-password', trimmed);
+    return { ok: true, message: 'Admin password updated successfully.' };
+  }
+
+  async function addTimetable(item) {
+    const state = await loadState();
+    const normalized = {
+      ...item,
+      id: item.id || `TT-${Date.now()}`,
+      title: item.title || 'Timetable',
+      department: item.department || 'IT',
+      day: item.day || 'Monday',
+      time: item.time || '09:00',
+      room: item.room || 'Room A1',
+      fileName: item.fileName || 'uploaded-file.pdf'
+    };
+    state.timetables = [normalized, ...(state.timetables || [])];
+    saveState(state);
+    return normalized;
+  }
+
+  async function deleteTimetable(timetableId) {
+    const state = await loadState();
+    state.timetables = (state.timetables || []).filter((item) => item.id !== timetableId);
+    saveState(state);
+    return true;
+  }
+
   return {
     STORAGE_KEY,
     generateInitialState,
     loadState,
+    readLocalState,
     saveState,
+    ensureLiveRefresh,
     getAvailableComputer,
     addStudent,
     addComputer,
@@ -312,6 +465,13 @@ const SmartLabData = (() => {
     validateNoOverlap,
     getComputerStatusSummary,
     loginAdmin,
-    getMonthlyReport
+    getMonthlyReport,
+    addSchedule,
+    updateSchedule,
+    deleteSchedule,
+    upsertStudent,
+    changeAdminPassword,
+    addTimetable,
+    deleteTimetable
   };
 })();

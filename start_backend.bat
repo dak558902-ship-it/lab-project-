@@ -1,3 +1,4 @@
 @echo off
-cd /d "D:\inovation test sample two"
-.\.venv\Scripts\python.exe app.py
+setlocal
+cd /d "%~dp0"
+"%~dp0\.venv\Scripts\python.exe" app.py

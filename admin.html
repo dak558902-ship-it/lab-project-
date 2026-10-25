@@ -1,119 +1,127 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Admin Dashboard | SmartLab Monitor</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="assets/css/design-system.css" />
-    <link rel="stylesheet" href="assets/css/admin.css" />
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  </head>
-  <body>
-    <div id="login-view" class="auth-page">
-      <div class="auth-shell">
-        <div class="auth-brand">
-          <div class="brand-mark">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M4 18V7.5A1.5 1.5 0 0 1 5.5 6H18.5A1.5 1.5 0 0 1 20 7.5V18M8 9.5H16M8 13H13M9 18V20M15 18V20" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </div>
-          <div>
-            <p class="eyebrow-mini">Secure Access</p>
-            <h1>SmartLab Monitor</h1>
-          </div>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard | SmartLab Monitor</title>
+  <meta name="description"
+    content="SmartLab Monitor admin dashboard for managing lab computers, staff, schedules, and usage reports." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&family=Share+Tech+Mono&family=Rajdhani:wght@400;500;600;700&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/design-system.css" />
+  <link rel="stylesheet" href="assets/css/admin.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+  <div id="login-view" class="auth-page">
+    <div class="auth-shell animate-scale">
+      <div class="auth-brand">
+        <div>
+          <p class="eyebrow-mini">Secure Access</p>
+          <h1>SmartLab Monitor</h1>
         </div>
-
-        <form id="login-form" class="auth-card" novalidate>
-          <div class="auth-header">
-            <h2>Administrator Login</h2>
-            <p>Use your secure admin credentials to enter the dashboard.</p>
-          </div>
-
-          <div class="field-group">
-            <label for="admin-username">Username</label>
-            <input id="admin-username" name="username" type="text" placeholder="admin" />
-          </div>
-
-          <div class="field-group">
-            <label for="admin-password">Password</label>
-            <input id="admin-password" name="password" type="password" placeholder="admin123" />
-          </div>
-
-          <label class="checkbox-row">
-            <input type="checkbox" id="remember-me" />
-            <span>Remember me</span>
-          </label>
-
-          <div id="login-error" class="form-error hidden"></div>
-          <button type="submit" class="btn btn-primary btn-block">Sign In</button>
-        </form>
       </div>
-    </div>
 
-    <div id="app-view" class="app-shell hidden">
-      <aside class="sidebar">
-        <div class="sidebar-header">
-          <div class="brand-mark small">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M4 18V7.5A1.5 1.5 0 0 1 5.5 6H18.5A1.5 1.5 0 0 1 20 7.5V18M8 9.5H16M8 13H13M9 18V20M15 18V20" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </div>
-          <div>
-            <p class="eyebrow-mini">Lab Ops</p>
-            <h3>SmartLab</h3>
-          </div>
+      <form id="login-form" class="auth-card animate-in delay-2" novalidate>
+        <div class="auth-header">
+          <h2>Administrator Login</h2>
+          <p>Use your secure admin credentials to enter the dashboard.</p>
         </div>
 
-        <nav class="sidebar-nav">
-          <button class="nav-item active" data-section="dashboard">
-            <span>🏠</span>
-            <span>Dashboard</span>
-          </button>
-          <button class="nav-item" data-section="computers">
-            <span>🖥️</span>
-            <span>Computers</span>
-          </button>
-          <button class="nav-item" data-section="records">
-            <span>📋</span>
-            <span>Usage Records</span>
-          </button>
-          <button class="nav-item" data-section="students">
-            <span>👥</span>
-            <span>Students</span>
-          </button>
-          <button class="nav-item" data-section="reports">
-            <span>📊</span>
-            <span>Reports</span>
-          </button>
-          <button class="nav-item" data-section="analytics">
-            <span>📈</span>
-            <span>Analytics</span>
-          </button>
-          <button class="nav-item" data-section="settings">
-            <span>⚙️</span>
-            <span>Settings</span>
-          </button>
-        </nav>
-      </aside>
+        <div class="field-group">
+          <label for="admin-username">Username</label>
+          <input id="admin-username" name="username" type="text" placeholder="admin" />
+        </div>
 
-      <div class="main-panel">
-        <header class="topbar-admin">
-          <div>
-            <p class="eyebrow-mini">Admin Dashboard</p>
-            <h2 id="page-title">Overview</h2>
-          </div>
-          <div class="topbar-actions">
-            <button id="back-to-home-btn" class="btn btn-ghost" type="button">Back</button>
-            <button id="logout-btn" class="btn btn-ghost">Log Out</button>
-          </div>
-        </header>
+        <div class="field-group">
+          <label for="admin-password">Password</label>
+          <input id="admin-password" name="password" type="password" placeholder="admin123" />
+        </div>
 
-        <main class="content-wrap">
-          <section id="dashboard-section" class="content-section active">
-            <div class="kpi-grid" id="dashboard-kpis"></div>
+        <label class="checkbox-row">
+          <input type="checkbox" id="remember-me" />
+          <span>Remember me</span>
+        </label>
+
+        <div id="login-error" class="form-error hidden"></div>
+        <div class="auth-actions">
+          <button type="button" id="admin-login-back-btn" class="btn btn-ghost btn-block">Back to Home</button>
+          <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="app-view" class="app-shell hidden">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="brand-mark small">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M4 18V7.5A1.5 1.5 0 0 1 5.5 6H18.5A1.5 1.5 0 0 1 20 7.5V18M8 9.5H16M8 13H13M9 18V20M15 18V20"
+              stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </div>
+        <div>
+          <p class="eyebrow-mini">Lab Ops</p>
+          <h3>SmartLab</h3>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <button class="nav-item active" data-section="dashboard">
+          <span>Dashboard</span>
+        </button>
+        <button class="nav-item" data-section="computers">
+          <span>Computers</span>
+        </button>
+        <button class="nav-item" data-section="records">
+          <span>Usage Records</span>
+        </button>
+        <button class="nav-item" data-section="students">
+          <span>Staff Directory</span>
+        </button>
+        <button class="nav-item" data-section="schedules">
+          <span>Class Schedules</span>
+        </button>
+        <button class="nav-item" data-section="reports">
+          <span>Reports</span>
+        </button>
+        <button class="nav-item" data-section="analytics">
+          <span>Analytics</span>
+        </button>
+        <button class="nav-item" data-section="settings">
+          <span>Settings</span>
+        </button>
+      </nav>
+    </aside>
+
+    <div class="main-panel">
+      <header class="topbar-admin">
+        <div>
+          <p class="eyebrow-mini">Admin Dashboard</p>
+          <h2 id="page-title">Overview</h2>
+        </div>
+        <div class="topbar-actions">
+          <button id="back-to-home-btn" class="btn btn-ghost" type="button">Back</button>
+          <button id="logout-btn" class="btn btn-ghost">Log Out</button>
+        </div>
+      </header>
+
+      <main class="content-wrap">
+        <!-- ═══ Dashboard ═══ -->
+        <section id="dashboard-section" class="content-section active">
+          <div class="kpi-grid" id="dashboard-kpis">
+            <div class="skeleton skeleton-card"></div>
+            <div class="skeleton skeleton-card"></div>
+            <div class="skeleton skeleton-card"></div>
+            <div class="skeleton skeleton-card"></div>
+          </div>
+          <div class="dashboard-grid">
             <div class="panel-box">
               <div class="panel-header small-gap">
                 <h3>Computer Availability</h3>
@@ -121,223 +129,416 @@
               </div>
               <div class="mini-grid" id="mini-grid"></div>
             </div>
-          </section>
+            <div class="panel-box">
+              <div class="panel-header small-gap">
+                <h3>Activity Feed</h3>
+                <span class="text-muted">Recent actions</span>
+              </div>
+              <div class="activity-feed" id="activity-feed"></div>
+            </div>
+          </div>
 
-          <section id="computers-section" class="content-section">
-            <div class="toolbar panel-box computer-toolbar">
-              <div class="field-group search-field">
-                <label for="computer-search">Search</label>
-                <input id="computer-search" type="search" placeholder="Find computer or student" />
+          <div class="panel-box schedule-box" style="margin-top: 20px;">
+            <div class="panel-header small-gap">
+              <h3>Timetable Upload &amp; View</h3>
+              <span class="text-muted">Department schedules</span>
+            </div>
+            <form id="timetable-form" class="schedule-form" novalidate>
+              <div class="schedule-form-grid">
+                <div class="field-group">
+                  <label for="timetable-title">Timetable Title</label>
+                  <input id="timetable-title" name="title" type="text" placeholder="Semester Timetable" />
+                </div>
+                <div class="field-group">
+                  <label for="timetable-department">Department</label>
+                  <select id="timetable-department" name="department">
+                    <option value="IT">IT</option>
+                    <option value="AI & ML">AI &amp; ML</option>
+                    <option value="CSE">CSE</option>
+                    <option value="ECE">ECE</option>
+                    <option value="EEE">EEE</option>
+                    <option value="MECH">MECH</option>
+                  </select>
+                </div>
+                <div class="field-group">
+                  <label for="timetable-day">Day</label>
+                  <select id="timetable-day" name="day">
+                    <option value="Monday">Monday</option>
+                    <option value="Tuesday">Tuesday</option>
+                    <option value="Wednesday">Wednesday</option>
+                    <option value="Thursday">Thursday</option>
+                    <option value="Friday">Friday</option>
+                  </select>
+                </div>
+                <div class="field-group">
+                  <label for="timetable-time">Time</label>
+                  <input id="timetable-time" name="time" type="time" />
+                </div>
+                <div class="field-group">
+                  <label for="timetable-room">Room</label>
+                  <input id="timetable-room" name="room" type="text" placeholder="Room A1" />
+                </div>
+                <div class="field-group">
+                  <label for="timetable-file">Upload File</label>
+                  <input id="timetable-file" name="timetableFile" type="file"
+                    accept=".pdf,.png,.jpg,.jpeg,.webp,.csv" />
+                </div>
               </div>
-              <div class="field-group compact-field">
-                <label for="computer-filter">Status</label>
-                <select id="computer-filter">
-                  <option value="all">All</option>
-                  <option value="AVAILABLE">Available</option>
-                  <option value="IN_USE">In Use</option>
-                  <option value="OFFLINE">Offline</option>
-                  <option value="MAINTENANCE">Under Maintenance</option>
-                </select>
+              <div class="submit-row compact-row">
+                <button type="submit" class="btn btn-primary">Save Timetable</button>
+                <button type="button" id="clear-timetable-form" class="btn btn-ghost">Clear</button>
               </div>
-              <button id="add-computer-btn" type="button" class="btn btn-primary">Add Computer</button>
+            </form>
+            <div id="timetable-list" class="schedule-list" style="margin-top: 18px;"></div>
+          </div>
+        </section>
+
+        <!-- ═══ Computers ═══ -->
+        <section id="computers-section" class="content-section">
+          <div class="toolbar panel-box computer-toolbar">
+            <div class="field-group search-field">
+              <label for="computer-search">Search</label>
+              <input id="computer-search" type="search" placeholder="Find computer or student" />
+            </div>
+            <div class="field-group compact-field">
+              <label for="computer-filter">Status</label>
+              <select id="computer-filter">
+                <option value="all">All</option>
+                <option value="AVAILABLE">Available</option>
+                <option value="IN_USE">In Use</option>
+                <option value="OFFLINE">Offline</option>
+                <option value="MAINTENANCE">Under Maintenance</option>
+              </select>
+            </div>
+            <button id="add-computer-btn" type="button" class="btn btn-primary">Add Computer</button>
+          </div>
+
+          <div id="computer-form-panel" class="panel-box hidden" style="margin-bottom: 18px;">
+            <div class="panel-header small-gap">
+              <h3>Add Computer</h3>
+            </div>
+            <form id="add-computer-form" class="add-computer-form" novalidate>
+              <div class="add-computer-grid">
+                <div class="field-group">
+                  <label for="new-computer-id">Computer ID</label>
+                  <input id="new-computer-id" name="computerId" type="text" placeholder="LAB-PC-25" required />
+                </div>
+                <div class="field-group">
+                  <label for="new-computer-status">Status</label>
+                  <select id="new-computer-status" name="status">
+                    <option value="AVAILABLE">Available</option>
+                    <option value="IN_USE">In Use</option>
+                    <option value="OFFLINE">Offline</option>
+                    <option value="MAINTENANCE">Under Maintenance</option>
+                  </select>
+                </div>
+                <div class="field-group">
+                  <label for="new-computer-student">Assigned Student</label>
+                  <input id="new-computer-student" name="studentName" type="text" placeholder="Optional if available" />
+                </div>
+              </div>
+              <div id="computer-form-error" class="form-error hidden"></div>
+              <div class="submit-row">
+                <button type="button" id="cancel-computer-form-btn" class="btn btn-ghost">Cancel</button>
+                <button type="submit" class="btn btn-primary">Save Computer</button>
+              </div>
+            </form>
+          </div>
+
+          <div id="computer-grid" class="computer-grid"></div>
+        </section>
+
+        <!-- ═══ Usage Records ═══ -->
+        <section id="records-section" class="content-section">
+          <div class="toolbar panel-box">
+            <div class="field-group search-field">
+              <label for="record-search">Search records</label>
+              <input id="record-search" type="search" placeholder="Student name or computer" />
+            </div>
+            <div class="field-group compact-field">
+              <label for="record-status-filter">Status</label>
+              <select id="record-status-filter">
+                <option value="all">All</option>
+                <option value="AVAILABLE">Available</option>
+                <option value="IN_USE">In Use</option>
+                <option value="OFFLINE">Offline</option>
+              </select>
+            </div>
+          </div>
+          <div class="panel-box table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Student</th>
+                  <th>Computer</th>
+                  <th>Department</th>
+                  <th>Date</th>
+                  <th>Time</th>
+                  <th>Duration</th>
+                </tr>
+              </thead>
+              <tbody id="records-table-body"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ═══ Staff Directory ═══ -->
+        <section id="students-section" class="content-section">
+          <div class="panel-box staff-form-box" style="margin-bottom: 20px;">
+            <div class="panel-header small-gap">
+              <h3>Add or Edit Staff Details</h3>
+            </div>
+            <form id="staff-form" class="staff-form" novalidate>
+              <input id="staff-id" type="hidden" name="id" />
+              <div class="staff-form-grid">
+                <div class="field-group">
+                  <label for="staff-name">Name</label>
+                  <input id="staff-name" name="name" type="text" placeholder="Full name" />
+                </div>
+                <div class="field-group">
+                  <label for="staff-register-number">Register Number</label>
+                  <input id="staff-register-number" name="registerNumber" type="text" placeholder="21CS101" />
+                </div>
+                <div class="field-group">
+                  <label for="staff-department">Department</label>
+                  <select id="staff-department" name="department">
+                    <option value="IT">IT</option>
+                    <option value="AI &amp; ML">AI &amp; ML</option>
+                    <option value="CSE">CSE</option>
+                    <option value="AI &amp; DS">AI &amp; DS</option>
+                    <option value="ECE">ECE</option>
+                    <option value="EEE">EEE</option>
+                    <option value="MECH">MECH</option>
+                  </select>
+                </div>
+                <div class="field-group">
+                  <label for="staff-year">Year</label>
+                  <select id="staff-year" name="year">
+                    <option value="1st Year">1st Year</option>
+                    <option value="2nd Year">2nd Year</option>
+                    <option value="3rd Year">3rd Year</option>
+                    <option value="4th Year">4th Year</option>
+                  </select>
+                </div>
+              </div>
+              <div class="submit-row compact-row">
+                <button type="submit" class="btn btn-primary">Save Staff</button>
+                <button type="button" id="reset-staff-form" class="btn btn-ghost">Reset</button>
+              </div>
+            </form>
+          </div>
+
+          <div class="panel-box table-wrap">
+            <div class="panel-header small-gap" style="margin-bottom: 14px;">
+              <h3>Staff Directory</h3>
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Register No</th>
+                  <th>Department</th>
+                  <th>Year</th>
+                  <th>Sessions</th>
+                  <th>Hours Logged</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="students-table-body"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ═══ Class Schedules ═══ -->
+        <section id="schedules-section" class="content-section">
+          <div class="panel-box schedule-box" style="margin-bottom: 20px;">
+            <div class="panel-header small-gap">
+              <h3>Manage Class Schedules</h3>
+              <span class="text-muted">Lab time slots</span>
+            </div>
+            <form id="schedule-form" class="schedule-form" novalidate>
+              <div class="schedule-form-grid">
+                <div class="field-group">
+                  <label for="schedule-class-name">Class Name</label>
+                  <input id="schedule-class-name" name="className" type="text" placeholder="Data Structures Lab" />
+                </div>
+                <div class="field-group">
+                  <label for="schedule-department">Department</label>
+                  <select id="schedule-department" name="department">
+                    <option value="IT">IT</option>
+                    <option value="AI &amp; ML">AI &amp; ML</option>
+                    <option value="CSE">CSE</option>
+                    <option value="ECE">ECE</option>
+                    <option value="EEE">EEE</option>
+                    <option value="MECH">MECH</option>
+                  </select>
+                </div>
+                <div class="field-group">
+                  <label for="schedule-day">Day</label>
+                  <select id="schedule-day" name="day">
+                    <option value="Monday">Monday</option>
+                    <option value="Tuesday">Tuesday</option>
+                    <option value="Wednesday">Wednesday</option>
+                    <option value="Thursday">Thursday</option>
+                    <option value="Friday">Friday</option>
+                  </select>
+                </div>
+                <div class="field-group">
+                  <label for="schedule-time">Time</label>
+                  <input id="schedule-time" name="time" type="time" />
+                </div>
+                <div class="field-group">
+                  <label for="schedule-duration">Duration (hrs)</label>
+                  <input id="schedule-duration" name="durationHours" type="number" min="1" max="8" value="2" />
+                </div>
+                <div class="field-group">
+                  <label for="schedule-room">Room</label>
+                  <input id="schedule-room" name="room" type="text" placeholder="Lab A1" />
+                </div>
+              </div>
+              <div class="submit-row compact-row">
+                <button type="submit" class="btn btn-primary">Save Schedule</button>
+                <button type="button" id="clear-schedule-form" class="btn btn-ghost">Clear</button>
+              </div>
+            </form>
+            <div id="schedule-list" class="schedule-list" style="margin-top: 18px;"></div>
+          </div>
+        </section>
+
+        <!-- ═══ Reports ═══ -->
+        <section id="reports-section" class="content-section">
+          <div class="report-grid">
+            <div class="panel-box">
+              <div class="panel-header small-gap">
+                <h3>Monthly Report</h3>
+              </div>
+              <div class="report-actions month-report-controls">
+                <div class="field-group" style="flex: 1; min-width: 180px;">
+                  <label for="report-month">Month</label>
+                  <input id="report-month" type="month" />
+                </div>
+                <div class="field-group" style="flex: 1; min-width: 180px;">
+                  <label for="report-staff-name">Staff Name</label>
+                  <input id="report-staff-name" type="text" placeholder="Search by staff name" />
+                </div>
+                <button id="generate-monthly-report" class="btn btn-primary">Generate Report</button>
+              </div>
+              <div id="monthly-report-summary" class="report-summary-box" style="margin-top: 18px;"></div>
+            </div>
+            <div class="panel-box">
+              <div class="panel-header small-gap">
+                <h3>Report Summary</h3>
+              </div>
+              <ul id="report-summary" class="report-list"></ul>
+            </div>
+          </div>
+
+          <div class="panel-box table-wrap" style="margin-top: 20px;">
+            <div class="panel-header small-gap" style="justify-content: space-between; align-items: center;">
+              <h3>Records to Export</h3>
+              <button id="export-report" class="btn btn-primary" type="button">Export Summary</button>
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th>Staff</th>
+                  <th>Computer</th>
+                  <th>Department</th>
+                  <th>Date</th>
+                  <th>Time</th>
+                  <th>Duration</th>
+                </tr>
+              </thead>
+              <tbody id="report-records-body"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ═══ Analytics ═══ -->
+        <section id="analytics-section" class="content-section">
+          <div class="chart-grid">
+            <div class="panel-box chart-card">
+              <h3>Usage Trend</h3>
+              <canvas id="usage-trend-chart"></canvas>
+            </div>
+            <div class="panel-box chart-card">
+              <h3>Department Share</h3>
+              <canvas id="department-chart"></canvas>
+            </div>
+            <div class="panel-box chart-card wide">
+              <h3>Computer Status Mix</h3>
+              <canvas id="status-chart"></canvas>
+            </div>
+          </div>
+        </section>
+
+        <!-- ═══ Settings ═══ -->
+        <section id="settings-section" class="content-section">
+          <div class="settings-grid">
+            <div class="panel-box">
+              <div class="panel-header small-gap">
+                <h3>System Settings</h3>
+              </div>
+              <div class="setting-item">
+                <div>
+                  <strong>Auto-approve bookings</strong>
+                  <p>Allow new usage records without manual approval.</p>
+                </div>
+                <label class="switch"><input type="checkbox" checked /><span class="slider"></span></label>
+              </div>
+              <div class="setting-item">
+                <div>
+                  <strong>Conflict detection</strong>
+                  <p>Highlight overlapping time slots for the same computer.</p>
+                </div>
+                <label class="switch"><input type="checkbox" checked /><span class="slider"></span></label>
+              </div>
             </div>
 
-            <div id="computer-form-panel" class="panel-box hidden" style="margin-bottom: 18px;">
+            <div class="panel-box">
               <div class="panel-header small-gap">
-                <h3>Add Computer</h3>
+                <h3>Change Admin Password</h3>
               </div>
-              <form id="add-computer-form" class="add-computer-form" novalidate>
-                <div class="add-computer-grid">
-                  <div class="field-group">
-                    <label for="new-computer-id">Computer ID</label>
-                    <input id="new-computer-id" name="computerId" type="text" placeholder="LAB-PC-25" required />
-                  </div>
-                  <div class="field-group">
-                    <label for="new-computer-status">Status</label>
-                    <select id="new-computer-status" name="status">
-                      <option value="AVAILABLE">Available</option>
-                      <option value="IN_USE">In Use</option>
-                      <option value="OFFLINE">Offline</option>
-                      <option value="MAINTENANCE">Under Maintenance</option>
-                    </select>
-                  </div>
-                  <div class="field-group">
-                    <label for="new-computer-student">Assigned Student</label>
-                    <input id="new-computer-student" name="studentName" type="text" placeholder="Optional if available" />
-                  </div>
+              <form id="admin-password-form" class="password-form" novalidate>
+                <div class="field-group">
+                  <label for="current-password">Current Password</label>
+                  <input id="current-password" name="currentPassword" type="password" placeholder="Current password" />
                 </div>
-                <div id="computer-form-error" class="form-error hidden"></div>
-                <div class="submit-row">
-                  <button type="button" id="cancel-computer-form-btn" class="btn btn-ghost">Cancel</button>
-                  <button type="submit" class="btn btn-primary">Save Computer</button>
+                <div class="field-group">
+                  <label for="new-password">New Password</label>
+                  <input id="new-password" name="newPassword" type="password" placeholder="New password" />
+                </div>
+                <div class="field-group">
+                  <label for="confirm-password">Confirm Password</label>
+                  <input id="confirm-password" name="confirmPassword" type="password" placeholder="Confirm password" />
+                </div>
+                <div id="password-form-error" class="form-error hidden"></div>
+                <div class="submit-row compact-row">
+                  <button type="submit" class="btn btn-primary">Update Password</button>
                 </div>
               </form>
             </div>
-
-            <div id="computer-grid" class="computer-grid"></div>
-          </section>
-
-          <section id="records-section" class="content-section">
-            <div class="toolbar panel-box">
-              <div class="field-group search-field">
-                <label for="record-search">Search records</label>
-                <input id="record-search" type="search" placeholder="Student name or computer" />
-              </div>
-              <div class="field-group compact-field">
-                <label for="record-status-filter">Status</label>
-                <select id="record-status-filter">
-                  <option value="all">All</option>
-                  <option value="AVAILABLE">Available</option>
-                  <option value="IN_USE">In Use</option>
-                  <option value="OFFLINE">Offline</option>
-                </select>
-              </div>
-            </div>
-            <div class="panel-box table-wrap">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Student</th>
-                    <th>Computer</th>
-                    <th>Department</th>
-                    <th>Date</th>
-                    <th>Time</th>
-                    <th>Duration</th>
-                  </tr>
-                </thead>
-                <tbody id="records-table-body"></tbody>
-              </table>
-            </div>
-          </section>
-
-          <section id="students-section" class="content-section">
-            <div class="panel-box table-wrap">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Name</th>
-                    <th>Register No</th>
-                    <th>Department</th>
-                    <th>Year</th>
-                    <th>Records</th>
-                    <th>Hours Logged</th>
-                  </tr>
-                </thead>
-                <tbody id="students-table-body"></tbody>
-              </table>
-            </div>
-          </section>
-
-          <section id="reports-section" class="content-section">
-            <div class="report-grid">
-              <div class="panel-box">
-                <div class="panel-header small-gap">
-                  <h3>Monthly Report</h3>
-                </div>
-                <div class="report-actions month-report-controls">
-                  <div class="field-group" style="flex: 1; min-width: 180px;">
-                    <label for="report-month">Month</label>
-                    <input id="report-month" type="month" />
-                  </div>
-                  <button id="generate-monthly-report" class="btn btn-primary">Generate Report</button>
-                  <button id="export-monthly-report" class="btn btn-secondary" type="button">Export Monthly CSV</button>
-                </div>
-                <div id="monthly-report-summary" class="report-summary-box" style="margin-top: 18px;"></div>
-              </div>
-              <div class="panel-box">
-                <div class="panel-header small-gap">
-                  <h3>Export Usage Data</h3>
-                </div>
-                <div class="report-actions">
-                  <button id="export-report" class="btn btn-primary">Export Report</button>
-                </div>
-              </div>
-              <div class="panel-box">
-                <div class="panel-header small-gap">
-                  <h3>Report Summary</h3>
-                </div>
-                <ul id="report-summary" class="report-list"></ul>
-              </div>
-            </div>
-
-            <div class="panel-box table-wrap" style="margin-top: 20px;">
-              <div class="panel-header small-gap">
-                <h3>Records to Export</h3>
-              </div>
-              <table>
-                <thead>
-                  <tr>
-                    <th>Student</th>
-                    <th>Computer</th>
-                    <th>Department</th>
-                    <th>Date</th>
-                    <th>Time</th>
-                    <th>Duration</th>
-                  </tr>
-                </thead>
-                <tbody id="report-records-body"></tbody>
-              </table>
-            </div>
-          </section>
-
-          <section id="analytics-section" class="content-section">
-            <div class="chart-grid">
-              <div class="panel-box chart-card">
-                <h3>Usage Trend</h3>
-                <canvas id="usage-trend-chart"></canvas>
-              </div>
-              <div class="panel-box chart-card">
-                <h3>Department Share</h3>
-                <canvas id="department-chart"></canvas>
-              </div>
-              <div class="panel-box chart-card wide">
-                <h3>Computer Status Mix</h3>
-                <canvas id="status-chart"></canvas>
-              </div>
-            </div>
-          </section>
-
-          <section id="settings-section" class="content-section">
-            <div class="settings-grid">
-              <div class="panel-box">
-                <div class="panel-header small-gap">
-                  <h3>System Settings</h3>
-                </div>
-                <div class="setting-item">
-                  <div>
-                    <strong>Auto-approve bookings</strong>
-                    <p>Allow new usage records without manual approval.</p>
-                  </div>
-                  <label class="switch"><input type="checkbox" checked /><span class="slider"></span></label>
-                </div>
-                <div class="setting-item">
-                  <div>
-                    <strong>Conflict detection</strong>
-                    <p>Highlight overlapping time slots for the same computer.</p>
-                  </div>
-                  <label class="switch"><input type="checkbox" checked /><span class="slider"></span></label>
-                </div>
-              </div>
-            </div>
-          </section>
-        </main>
-      </div>
+          </div>
+        </section>
+      </main>
     </div>
+  </div>
 
-    <div id="computer-modal" class="modal hidden" aria-modal="true" role="dialog">
-      <div class="modal-overlay" data-close="true"></div>
-      <div class="modal-card">
-        <div class="modal-header">
-          <h3 id="modal-title">Computer Details</h3>
-          <button type="button" class="modal-close" data-close="true">×</button>
-        </div>
-        <div id="modal-body" class="modal-body"></div>
+  <div id="computer-modal" class="modal hidden" aria-modal="true" role="dialog">
+    <div class="modal-overlay" data-close="true"></div>
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="modal-title">Computer Details</h3>
+        <button type="button" class="modal-close" data-close="true">×</button>
       </div>
+      <div id="modal-body" class="modal-body"></div>
     </div>
+  </div>
 
-    <script src="assets/js/utils.js"></script>
-    <script src="assets/js/data.js"></script>
-    <script src="assets/js/charts.js"></script>
-    <script src="assets/js/admin.js"></script>
-  </body>
+  <script src="assets/js/utils.js"></script>
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/charts.js"></script>
+  <script src="assets/js/admin.js"></script>
+</body>
+
 </html>

@@ -3,272 +3,826 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SmartLab Monitor</title>
+    <title>SmartLab Monitor | Real-Time Workstation Intelligence</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="assets/css/design-system.css" />
     <style>
+      /* ── Modern Dark Glassmorphic Landing Page ─────────────────── */
+      :root {
+        --page-bg: #070a12;
+        --card-bg: rgba(15, 22, 38, 0.72);
+        --card-border: rgba(255, 255, 255, 0.08);
+        --card-hover-border: rgba(139, 92, 246, 0.45);
+        --text-pure: #ffffff;
+        --text-subtle: #94a3b8;
+        --text-dim: #64748b;
+        --accent-violet: #8b5cf6;
+        --accent-indigo: #6366f1;
+        --accent-cyan: #06b6d4;
+        --accent-emerald: #10b981;
+      }
+
       body {
         margin: 0;
         min-height: 100vh;
-        background: linear-gradient(135deg, var(--bg) 0%, #eef2ff 100%);
+        background-color: var(--page-bg);
+        background-image: 
+          radial-gradient(circle at 12% 14%, rgba(124, 58, 237, 0.16) 0%, transparent 45%),
+          radial-gradient(circle at 88% 22%, rgba(14, 165, 233, 0.12) 0%, transparent 42%),
+          radial-gradient(circle at 50% 85%, rgba(16, 185, 129, 0.06) 0%, transparent 50%),
+          radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+        background-size: 100% 100%, 100% 100%, 100% 100%, 28px 28px;
+        color: var(--text-pure);
+        font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        line-height: 1.6;
+        overflow-x: hidden;
       }
 
       .landing-shell {
         max-width: 1280px;
         margin: 0 auto;
-        padding: 48px 24px 72px;
+        padding: 32px 28px 80px;
       }
 
+      /* ── Top Floating Navigation Bar ────────────────────────────── */
       .topbar {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 28px;
+        margin-bottom: 48px;
+        padding: 14px 24px;
+        background: rgba(13, 19, 33, 0.7);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid var(--card-border);
+        border-radius: 18px;
+        box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.08);
       }
 
       .brand {
         display: flex;
         align-items: center;
-        gap: 12px;
-        font-weight: 700;
-        color: var(--text-primary);
+        gap: 14px;
+        text-decoration: none;
+        color: var(--text-pure);
       }
 
       .brand-mark {
         width: 44px;
         height: 44px;
-        border-radius: 14px;
+        border-radius: 12px;
         display: grid;
         place-items: center;
-        background: linear-gradient(135deg, var(--primary-600), var(--primary-800));
-        color: #fff;
-        box-shadow: 0 10px 25px rgba(67, 56, 202, 0.22);
+        background: linear-gradient(135deg, rgba(124, 58, 237, 0.9) 0%, rgba(79, 70, 229, 0.9) 100%);
+        color: #ffffff;
+        box-shadow: 0 4px 18px rgba(124, 58, 237, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
       }
 
-      .hero {
-        display: grid;
-        grid-template-columns: 1.2fr 0.8fr;
-        gap: 28px;
-        align-items: stretch;
+      .brand:hover .brand-mark {
+        transform: scale(1.05);
+        box-shadow: 0 6px 24px rgba(124, 58, 237, 0.65);
       }
 
-      .hero-copy,
-      .hero-panel,
-      .stat-card,
-      .switch-card {
-        background: rgba(255, 255, 255, 0.9);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(148, 163, 184, 0.18);
-        box-shadow: var(--shadow-md);
+      .brand-details {
+        display: flex;
+        flex-direction: column;
       }
 
-      .hero-copy {
-        border-radius: 28px;
-        padding: 32px;
-      }
-
-      .eyebrow {
-        display: inline-flex;
-        padding: 8px 12px;
-        border-radius: 999px;
-        background: rgba(79, 70, 229, 0.08);
-        color: var(--primary-700);
-        font-size: var(--body-small-size);
+      .brand-title {
         font-weight: 700;
+        font-size: 1.15rem;
+        letter-spacing: -0.02em;
+        color: #ffffff;
+      }
+
+      .brand-subtitle {
+        font-size: 0.72rem;
+        color: var(--text-subtle);
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        font-weight: 600;
+      }
+
+      .topbar-center-pill {
+        display: none;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 14px;
+        border-radius: 9999px;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        font-size: 0.8rem;
+        color: var(--text-subtle);
+        font-weight: 500;
+      }
+
+      @media (min-width: 900px) {
+        .topbar-center-pill {
+          display: inline-flex;
+        }
+      }
+
+      .topbar-actions {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+
+      .live-beacon-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 14px;
+        border-radius: 9999px;
+        background: rgba(16, 185, 129, 0.08);
+        border: 1px solid rgba(16, 185, 129, 0.25);
+        color: var(--accent-emerald);
+        font-size: 0.78rem;
+        font-weight: 600;
         letter-spacing: 0.04em;
         text-transform: uppercase;
       }
 
-      h1 {
-        margin: 18px 0 12px;
-        font-size: clamp(2.6rem, 4vw, 4rem);
-        line-height: 1.05;
+      .beacon-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--accent-emerald);
+        box-shadow: 0 0 10px var(--accent-emerald);
+        animation: pulse-beacon 2s infinite ease-in-out;
+      }
+
+      @keyframes pulse-beacon {
+        0%, 100% { transform: scale(1); opacity: 1; }
+        50% { transform: scale(1.3); opacity: 0.6; }
+      }
+
+      /* ── Hero Grid ────────────────────────────────────────────── */
+      .hero {
+        display: grid;
+        grid-template-columns: 1.15fr 0.85fr;
+        gap: 28px;
+        align-items: stretch;
+        margin-bottom: 36px;
+      }
+
+      .hero-copy {
+        background: var(--card-bg);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid var(--card-border);
+        border-radius: 24px;
+        padding: 44px 40px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+      }
+
+      .hero-copy::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 200px;
+        height: 200px;
+        background: radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, transparent 70%);
+        pointer-events: none;
+      }
+
+      .eyebrow-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 14px;
+        border-radius: 9999px;
+        background: rgba(139, 92, 246, 0.1);
+        border: 1px solid rgba(139, 92, 246, 0.3);
+        color: #c4b5fd;
+        font-size: 0.76rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        width: fit-content;
+      }
+
+      .hero-copy h1 {
+        margin: 20px 0 16px;
+        font-size: clamp(2.3rem, 3.8vw, 3.4rem);
+        line-height: 1.12;
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        color: #ffffff;
+      }
+
+      .gradient-text {
+        background: linear-gradient(135deg, #a78bfa 0%, #38bdf8 100%);
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
       }
 
       .hero-copy p {
-        color: var(--text-secondary);
-        font-size: var(--body-large-size);
-        max-width: 60ch;
+        color: var(--text-subtle);
+        font-size: 1.05rem;
+        max-width: 54ch;
+        line-height: 1.65;
+        margin-bottom: 28px;
       }
 
+      .feature-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 32px;
+      }
+
+      .feature-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 5px 12px;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        font-size: 0.8rem;
+        color: #cbd5e1;
+        font-weight: 500;
+      }
+
+      .feature-pill svg {
+        color: var(--accent-emerald);
+      }
+
+      .hero-cta-group {
+        display: flex;
+        gap: 14px;
+        flex-wrap: wrap;
+      }
+
+      /* ── Hero Telemetry Panel (Right Side) ─────────────────────── */
       .hero-panel {
-        border-radius: 28px;
-        padding: 28px;
+        background: var(--card-bg);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid var(--card-border);
+        border-radius: 24px;
+        padding: 32px 28px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .panel-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        padding-bottom: 14px;
+        border-bottom: 1px solid var(--card-border);
+      }
+
+      .panel-header h3 {
+        font-size: 1rem;
+        font-weight: 700;
+        color: #ffffff;
+        letter-spacing: -0.01em;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .telemetry-tag {
+        font-size: 0.74rem;
+        color: var(--text-dim);
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
       }
 
       .stats-grid {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 16px;
-        margin-top: 24px;
+        gap: 14px;
       }
 
       .stat-card {
-        border-radius: 18px;
+        background: rgba(22, 30, 52, 0.6);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 16px;
         padding: 18px 16px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.25s ease;
+      }
+
+      .stat-card:hover {
+        border-color: rgba(139, 92, 246, 0.4);
+        background: rgba(28, 38, 66, 0.7);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.4);
       }
 
       .metric-meta {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        font-size: var(--caption-size);
-        color: var(--text-secondary);
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: var(--text-subtle);
+        letter-spacing: 0.02em;
       }
 
       .metric-value {
-        margin-top: 8px;
-        font-size: clamp(1.8rem, 2vw, 2.4rem);
+        margin: 12px 0 6px;
+        font-size: clamp(2rem, 2.5vw, 2.7rem);
         font-weight: 800;
-        color: var(--text-primary);
+        color: #ffffff;
+        letter-spacing: -0.03em;
+        line-height: 1;
       }
 
+      .metric-subtext {
+        font-size: 0.72rem;
+        color: var(--text-dim);
+        font-weight: 500;
+      }
+
+      /* Lab Occupancy Meter */
+      .occupancy-card {
+        margin-top: 18px;
+        padding: 16px;
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.025);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+      }
+
+      .occupancy-labels {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.78rem;
+        font-weight: 600;
+        color: var(--text-subtle);
+        margin-bottom: 8px;
+      }
+
+      .occupancy-bar-bg {
+        width: 100%;
+        height: 8px;
+        background: rgba(255, 255, 255, 0.06);
+        border-radius: 9999px;
+        overflow: hidden;
+      }
+
+      .occupancy-bar-fill {
+        height: 100%;
+        width: 35%;
+        border-radius: 9999px;
+        background: linear-gradient(90deg, #7c3aed 0%, #38bdf8 100%);
+        transition: width 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      /* ── Dual Switch Cards (Student & Admin) ───────────────────── */
       .switch-grid {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 28px;
-        margin-top: 34px;
       }
 
       .switch-card {
+        background: var(--card-bg);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid var(--card-border);
         border-radius: 24px;
-        padding: 28px 24px;
+        padding: 36px 32px;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        min-height: 260px;
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        min-height: 300px;
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.06);
       }
 
       .switch-card:hover {
-        transform: translateY(-2px);
-        box-shadow: var(--shadow-lg);
+        border-color: var(--card-hover-border);
+        transform: translateY(-4px);
+        box-shadow: 0 24px 50px -10px rgba(124, 58, 237, 0.25), 0 0 0 1px rgba(139, 92, 246, 0.3);
+      }
+
+      .switch-card.admin-card:hover {
+        border-color: rgba(56, 189, 248, 0.45);
+        box-shadow: 0 24px 50px -10px rgba(56, 189, 248, 0.2), 0 0 0 1px rgba(56, 189, 248, 0.3);
+      }
+
+      .switch-icon-wrap {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 22px;
       }
 
       .switch-icon {
-        width: 56px;
-        height: 56px;
+        width: 58px;
+        height: 58px;
         display: grid;
         place-items: center;
-        border-radius: 18px;
-        background: rgba(79, 70, 229, 0.12);
-        color: var(--primary-700);
+        border-radius: 16px;
+        background: linear-gradient(135deg, rgba(124, 58, 237, 0.2) 0%, rgba(79, 70, 229, 0.1) 100%);
+        border: 1px solid rgba(139, 92, 246, 0.35);
+        color: #c4b5fd;
+        box-shadow: 0 4px 18px rgba(124, 58, 237, 0.25);
+      }
+
+      .admin-card .switch-icon {
+        background: linear-gradient(135deg, rgba(14, 165, 233, 0.2) 0%, rgba(30, 64, 175, 0.1) 100%);
+        border-color: rgba(56, 189, 248, 0.35);
+        color: #7dd3fc;
+        box-shadow: 0 4px 18px rgba(14, 165, 233, 0.25);
+      }
+
+      .role-badge {
+        font-size: 0.72rem;
+        padding: 4px 10px;
+        border-radius: 6px;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: #e2e8f0;
       }
 
       .switch-card h2 {
-        margin: 16px 0 8px;
-        font-size: var(--h2-size);
+        margin: 0 0 10px;
+        font-size: 1.5rem;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        color: #ffffff;
       }
 
       .switch-card p {
-        color: var(--text-secondary);
+        color: var(--text-subtle);
+        font-size: 0.95rem;
+        line-height: 1.6;
+        margin-bottom: 22px;
       }
 
-      .switch-card a {
-        margin-top: 20px;
+      .card-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 26px;
       }
 
-      @media (max-width: 860px) {
-        .hero,
-        .switch-grid,
-        .stats-grid {
+      .card-tag {
+        font-size: 0.75rem;
+        padding: 4px 10px;
+        border-radius: 6px;
+        background: rgba(255, 255, 255, 0.035);
+        color: #cbd5e1;
+        font-weight: 500;
+      }
+
+      .switch-card .btn {
+        width: 100%;
+      }
+
+      /* ── Footer ─────────────────────────────────────────────────── */
+      .landing-footer {
+        margin-top: 54px;
+        padding-top: 24px;
+        border-top: 1px solid var(--card-border);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: var(--text-dim);
+        font-size: 0.82rem;
+      }
+
+      .footer-links {
+        display: flex;
+        gap: 20px;
+      }
+
+      .footer-links a {
+        color: var(--text-dim);
+        text-decoration: none;
+        transition: color 0.2s ease;
+      }
+
+      .footer-links a:hover {
+        color: #ffffff;
+      }
+
+      @media (max-width: 960px) {
+        .hero {
+          grid-template-columns: 1fr;
+        }
+
+        .switch-grid {
           grid-template-columns: 1fr;
         }
 
         .landing-shell {
-          padding-top: 32px;
+          padding: 20px 16px 60px;
+        }
+
+        .hero-copy {
+          padding: 32px 24px;
         }
       }
     </style>
   </head>
   <body>
     <div class="landing-shell">
-      <header class="topbar">
-        <div class="brand">
+      <!-- ── Floating Header ────────────────────────────────────── -->
+      <header class="topbar animate-in">
+        <a href="index.html" class="brand">
           <div class="brand-mark">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M4 18V7.5A1.5 1.5 0 0 1 5.5 6H18.5A1.5 1.5 0 0 1 20 7.5V18M8 9.5H16M8 13H13M9 18V20M15 18V20" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              <path
+                d="M4 18V7.5A1.5 1.5 0 0 1 5.5 6H18.5A1.5 1.5 0 0 1 20 7.5V18M8 9.5H16M8 13H13M9 18V20M15 18V20"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
             </svg>
           </div>
-          <span>SmartLab Monitor</span>
+          <div class="brand-details">
+            <span class="brand-title">SmartLab Monitor</span>
+            <span class="brand-subtitle">Innovation Lab Suite</span>
+          </div>
+        </a>
+
+        <div class="topbar-center-pill">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10" />
+            <path d="M12 6v6l4 2" />
+          </svg>
+          <span>Live Workstation Telemetry • 60 Active Nodes</span>
         </div>
-        <span class="status-badge success">Operational</span>
+
+        <div class="topbar-actions">
+          <div class="live-beacon-pill">
+            <span class="beacon-dot"></span>
+            <span>Operational</span>
+          </div>
+        </div>
       </header>
 
+      <!-- ── Hero Main Section ──────────────────────────────────── -->
       <main class="hero">
-        <section class="hero-copy">
-          <div class="eyebrow">College Lab Platform</div>
-          <h1>Professional lab usage logging for every scheduled session.</h1>
-          <p>
-            Record usage for 60 computing workstations, track schedule conflicts, and keep your lab organized with a centralized, student-friendly portal and admin dashboard.
-          </p>
+        <section class="hero-copy animate-in delay-1">
+          <div>
+            <div class="eyebrow-pill">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+              </svg>
+              Next-Gen Campus Intelligence
+            </div>
+            <h1>
+              Intelligent Lab Monitoring &amp;
+              <span class="gradient-text">Automated Logging.</span>
+            </h1>
+            <p>
+              Coordinate 60 high-performance computing terminals with zero scheduling collisions. Empower students with frictionless self-service check-in and equip lab administrators with live audit intelligence.
+            </p>
+
+            <div class="feature-tags">
+              <div class="feature-pill">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12" /></svg>
+                60 Connected Terminals
+              </div>
+              <div class="feature-pill">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12" /></svg>
+                Real-Time Conflict Prevention
+              </div>
+              <div class="feature-pill">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12" /></svg>
+                Export-Ready CSV Logs
+              </div>
+            </div>
+          </div>
+
+          <div class="hero-cta-group">
+            <a href="student.html" class="btn btn-gradient">Open Student Portal &rarr;</a>
+            <a href="admin.html" class="btn btn-secondary">Admin Console</a>
+          </div>
         </section>
 
-        <aside class="hero-panel">
-          <h3>Today's Lab Overview</h3>
-          <div class="stats-grid" id="landing-stats"></div>
+        <!-- ── Live Lab Telemetry Overview Panel ──────────────────── -->
+        <aside class="hero-panel animate-in delay-2">
+          <div>
+            <div class="panel-header">
+              <h3>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent-violet)" stroke-width="2">
+                  <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
+                  <line x1="8" y1="21" x2="16" y2="21" />
+                  <line x1="12" y1="17" x2="12" y2="21" />
+                </svg>
+                Today's Lab Telemetry
+              </h3>
+              <span class="telemetry-tag">Live Feed</span>
+            </div>
+
+            <!-- Dynamic Stats Cards rendered by JS -->
+            <div class="stats-grid" id="landing-stats">
+              <div class="skeleton skeleton-card"></div>
+              <div class="skeleton skeleton-card"></div>
+              <div class="skeleton skeleton-card"></div>
+              <div class="skeleton skeleton-card"></div>
+            </div>
+          </div>
+
+          <div class="occupancy-card">
+            <div class="occupancy-labels">
+              <span>Workstation Utilization</span>
+              <span id="occupancy-percent-text">Calculating...</span>
+            </div>
+            <div class="occupancy-bar-bg">
+              <div id="occupancy-fill" class="occupancy-bar-fill" style="width: 0%"></div>
+            </div>
+          </div>
         </aside>
       </main>
 
+      <!-- ── Dual Portal Switch Grid ────────────────────────────── -->
       <section class="switch-grid">
-        <article class="switch-card">
+        <article class="switch-card animate-in delay-4">
           <div>
-            <div class="switch-icon">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <path d="M7 17V7.5A1.5 1.5 0 0 1 8.5 6H15.5A1.5 1.5 0 0 1 17 7.5V17M9 10.5H15M9 14H13M4 18H20" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
+            <div class="switch-icon-wrap">
+              <div class="switch-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                  <circle cx="12" cy="7" r="4" />
+                </svg>
+              </div>
+              <span class="role-badge">Student Flow</span>
             </div>
             <h2>Student Portal</h2>
-            <p>Submit scheduled lab usage records with start and end time validation, computer availability checks, and clear confirmation details.</p>
+            <p>
+              Submit scheduled lab usage records with instant start and end time validation, machine status verification, and verifiable session receipts.
+            </p>
+            <div class="card-tags">
+              <span class="card-tag">Terminal Check-In</span>
+              <span class="card-tag">Availability Guarantee</span>
+              <span class="card-tag">Instant Confirmation</span>
+            </div>
           </div>
-          <a href="student.html" class="btn btn-primary">Open Student Portal</a>
+          <a href="student.html" class="btn btn-gradient">Launch Student Portal &rarr;</a>
         </article>
 
-        <article class="switch-card">
+        <article class="switch-card admin-card animate-in delay-5">
           <div>
-            <div class="switch-icon">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <path d="M4 18V7.5A1.5 1.5 0 0 1 5.5 6H18.5A1.5 1.5 0 0 1 20 7.5V18M8 9.5H16M8 13.5H16M12 18V20M4 18H20" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
+            <div class="switch-icon-wrap">
+              <div class="switch-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="3" width="18" height="18" rx="2" />
+                  <path d="M3 9h18" />
+                  <path d="M9 21V9" />
+                </svg>
+              </div>
+              <span class="role-badge">Management</span>
             </div>
-            <h2>Admin Panel</h2>
-            <p>Access the full dashboard for computer inventory, usage records, student management, analytics, and export-ready reporting.</p>
+            <h2>Admin Command Center</h2>
+            <p>
+              Access centralized inventory management for all 60 workstations, track active sessions, inspect conflict audit logs, and export reporting spreadsheets.
+            </p>
+            <div class="card-tags">
+              <span class="card-tag">Workstation Matrix</span>
+              <span class="card-tag">Conflict Audit Log</span>
+              <span class="card-tag">CSV / Excel Export</span>
+            </div>
           </div>
-          <a href="admin.html" class="btn btn-secondary">Open Admin Login</a>
+          <a href="admin.html" class="btn btn-secondary">Open Admin Dashboard &rarr;</a>
         </article>
       </section>
+
+      <!-- ── Footer ─────────────────────────────────────────────── -->
+      <footer class="landing-footer">
+        <div>
+          <span>&copy; 2026 SmartLab Monitor &bull; Innovation Lab 01</span>
+        </div>
+        <div class="footer-links">
+          <a href="student.html">Student Check-In</a>
+          <a href="admin.html">Admin Console</a>
+        </div>
+      </footer>
     </div>
 
+    <!-- Scripts -->
     <script src="assets/js/utils.js"></script>
     <script src="assets/js/data.js"></script>
     <script>
-      document.addEventListener('DOMContentLoaded', function () {
+      document.addEventListener('DOMContentLoaded', async function () {
         const statsWrap = document.getElementById('landing-stats');
-        const state = SmartLabData.loadState();
-        const computers = state.computers;
-        const total = computers.length;
-        const available = computers.filter((pc) => pc.status === 'AVAILABLE').length;
-        const inUse = computers.filter((pc) => pc.status === 'IN_USE').length;
-        const offline = computers.filter((pc) => pc.status === 'OFFLINE').length;
+        const occupancyFill = document.getElementById('occupancy-fill');
+        const occupancyText = document.getElementById('occupancy-percent-text');
 
-        const statItems = [
-          { label: 'Total PCs', value: total, tone: 'primary' },
-          { label: 'Available', value: available, tone: 'success' },
-          { label: 'In Use', value: inUse, tone: 'info' },
-          { label: 'Offline', value: offline, tone: 'warning' }
-        ];
+        /* ── Animated counter utility ── */
+        function animateCounter(element, target, duration) {
+          const start = performance.now();
+          const from = 0;
+          function tick(now) {
+            const elapsed = now - start;
+            const progress = Math.min(elapsed / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            element.textContent = Math.round(from + (target - from) * eased);
+            if (progress < 1) requestAnimationFrame(tick);
+          }
+          requestAnimationFrame(tick);
+        }
 
-        statsWrap.innerHTML = statItems.map((item) => `
-          <div class="stat-card">
-            <div class="metric-meta">
-              <span>${item.label}</span>
-              <span class="status-dot ${item.tone}"></span>
-            </div>
-            <div class="metric-value">${item.value}</div>
-          </div>
-        `).join('');
+        /* ── Button ripple effect ── */
+        document.querySelectorAll('.btn').forEach(function (btn) {
+          btn.addEventListener('click', function (e) {
+            const ring = document.createElement('span');
+            ring.className = 'ripple-ring';
+            const rect = btn.getBoundingClientRect();
+            ring.style.left = (e.clientX - rect.left - 30) + 'px';
+            ring.style.top = (e.clientY - rect.top - 30) + 'px';
+            btn.appendChild(ring);
+            ring.addEventListener('animationend', function () { ring.remove(); });
+          });
+        });
+
+        /* ── Load data and render stats with count-up ── */
+        try {
+          const state = await SmartLabData.loadState();
+          const computers = state.computers || [];
+          const total = computers.length || 60;
+          const available = computers.filter((pc) => pc.status === 'AVAILABLE').length;
+          const inUse = computers.filter((pc) => pc.status === 'IN_USE').length;
+          const offline = computers.filter((pc) => pc.status === 'OFFLINE').length;
+
+          const statItems = [
+            { label: 'Total Terminals', value: total, tone: 'primary', sub: 'Installed nodes' },
+            { label: 'Available', value: available, tone: 'success', sub: 'Ready for check-in' },
+            { label: 'In Use', value: inUse, tone: 'info', sub: 'Active sessions' },
+            { label: 'Offline / Maint', value: offline, tone: 'warning', sub: 'Needs inspection' }
+          ];
+
+          function renderStats() {
+            const liveState = SmartLabData.readLocalState();
+            const liveComputers = liveState.computers || [];
+            const totalNow = liveComputers.length || 60;
+            const availableNow = liveComputers.filter((pc) => pc.status === 'AVAILABLE').length;
+            const inUseNow = liveComputers.filter((pc) => pc.status === 'IN_USE').length;
+            const offlineNow = liveComputers.filter((pc) => pc.status === 'OFFLINE').length;
+
+            const statItemsNow = [
+              { label: 'Total Terminals', value: totalNow, tone: 'primary', sub: 'Installed nodes' },
+              { label: 'Available', value: availableNow, tone: 'success', sub: 'Ready for check-in' },
+              { label: 'In Use', value: inUseNow, tone: 'info', sub: 'Active sessions' },
+              { label: 'Offline / Maint', value: offlineNow, tone: 'warning', sub: 'Needs inspection' }
+            ];
+
+            statsWrap.innerHTML = statItemsNow.map((item, i) => `
+              <div class="stat-card animate-scale delay-${i + 2}">
+                <div class="metric-meta">
+                  <span>${item.label}</span>
+                  <span class="status-dot ${item.tone}"></span>
+                </div>
+                <div class="metric-value" data-target="${item.value}">0</div>
+                <div class="metric-subtext">${item.sub}</div>
+              </div>
+            `).join('');
+
+            const utilizationPercent = totalNow > 0 ? Math.round((inUseNow / totalNow) * 100) : 0;
+            if (occupancyFill && occupancyText) {
+              occupancyText.textContent = `${utilizationPercent}% In-Use (${inUseNow}/${totalNow} Units)`;
+              occupancyFill.style.width = `${utilizationPercent}%`;
+            }
+
+            document.querySelectorAll('.metric-value[data-target]').forEach(function (el) {
+              animateCounter(el, parseInt(el.dataset.target, 10), 1000);
+            });
+          }
+
+          renderStats();
+          window.addEventListener('smartlab-state-updated', renderStats);
+        } catch (err) {
+          console.error('Error loading lab telemetry:', err);
+        }
       });
     </script>
   </body>
